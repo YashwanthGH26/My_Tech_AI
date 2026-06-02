@@ -11,11 +11,10 @@ st.set_page_config(
 )
 
 # --- 2. BACKEND API ROUTING CONSTANTS ---
-# Replace this with your exact local or deployed production n8n webhook URL link
-N8N_WEBHOOK_URL = "http://localhost:5678/webhook/ask-tech-ai"
+# CRITICAL FIX: We will replace this dummy URL with your real Make.com webhook URL in Step 2
+MAKE_WEBHOOK_URL = "https://make.com"
 
 # --- 3. CUSTOM CSS BRAND VISUAL ANCHORS ---
-# CRITICAL FIX: Changed 'unsafe_style_allowed=True' to 'unsafe_allow_html=True'
 st.markdown("""
     <style>
     .main { background-color: #0e1117; color: #ffffff; }
@@ -54,7 +53,7 @@ with st.sidebar:
 
 # --- 5. CORE UI LAYOUT HEADERS ---
 st.title("💻 TechAI Contextual Engine")
-st.caption("Powered by Agentic n8n Orchester, Vector RAG Datastores, and Model Context Protocols (MCP)")
+st.caption("Powered by Make.com Cloud Orchestrator, Free Hugging Face AI Models, and Streamlit")
 st.write("Submit complex technical queries, source script fragments, or architectural infrastructure debugging constraints below.")
 
 # --- 6. STATE HANDLING FOR SEAMLESS CHAT ARCHIVING ---
@@ -71,36 +70,39 @@ if submit_action:
     if not user_query.strip():
         st.error("Validation Error: Please write a valid input text string prompt before processing execution.")
     else:
-        with st.spinner("Executing Pipeline: Querying Vector Stores and Compiling Response via MCP..."):
+        with st.spinner("Executing Pipeline: Fetching responses from Cloud AI Engine..."):
             try:
                 # Construct safe structural data payload packet
                 payload = {"query": user_query}
                 headers = {"Content-Type": "application/json"}
 
-                # Execute REST API POST transaction call to n8n pipeline workflow engine
-                api_response = requests.post(N8N_WEBHOOK_URL, data=json.dumps(payload), headers=headers, timeout=60)
-
-                # Verify server state responses
-                if api_response.status_code == 200:
-                    raw_data = api_response.json()
-
-                    # Pull output data token string dynamically matching n8n structure logic
-                    final_ai_answer = raw_data.get("output", "Pipeline warning: System generated a blank data array payload.")
-
-                    # Update cache state histories
-                    st.session_state.conversation_history.append({"prompt": user_query, "reply": final_ai_answer})
-
-                    # Render contextual UI output blocks
-                    st.markdown("### ⚡ Pipeline Response Executed Successfully:")
-                    st.markdown(f'<div class="response-box">{final_ai_answer}</div>', unsafe_allow_html=True)
-
+                # Execute REST API POST transaction call to Make.com cloud engine
+                if "your-unique-webhook-id" in MAKE_WEBHOOK_URL:
+                    st.warning("Configuration Notice: You need to paste your real Make.com URL into line 15 of your app.py file.")
                 else:
-                    st.error(f"Backend Server Failure: Pipeline responded with error status code {api_response.status_code}. Verify n8n workflow listening states.")
+                    api_response = requests.post(MAKE_WEBHOOK_URL, data=json.dumps(payload), headers=headers, timeout=60)
+
+                    # Verify server state responses
+                    if api_response.status_code == 200:
+                        raw_data = api_response.json()
+
+                        # Pull output data token string dynamically matching Make.com response structure
+                        final_ai_answer = raw_data.get("output", "Pipeline warning: System generated a blank data array payload.")
+
+                        # Update cache state histories
+                        st.session_state.conversation_history.append({"prompt": user_query, "reply": final_ai_answer})
+
+                        # Render contextual UI output blocks
+                        st.markdown("### ⚡ Pipeline Response Executed Successfully:")
+                        st.markdown(f'<div class="response-box">{final_ai_answer}</div>', unsafe_allow_html=True)
+
+                    else:
+                        st.error(f"Cloud Server Failure: Pipeline responded with error status code {api_response.status_code}. Verify Make.com scenario states.")
 
             except requests.exceptions.Timeout:
                 st.error("System Network Interruption Error: Connection request reached server timeout constraints.")
             except requests.exceptions.ConnectionError:
-                st.error("Pipeline Failure: Streamlit was completely unable to reach your backend local n8n gateway port (http://localhost:5678). Please make sure Docker and n8n are actively running.")
+                st.error("Pipeline Failure: Streamlit was completely unable to reach your Make.com endpoint URL. Please check your internet connection and webhook status.")
             except Exception as system_error:
                 st.error(f"An unexpected exception error structural state occurred: {str(system_error)}")
 
